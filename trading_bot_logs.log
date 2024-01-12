@@ -1,0 +1,16 @@
+2024-01-12 05:36:51 [INFO]: User initiated bot configuration.
+2024-01-12 05:37:32 [INFO]: Bot configured with investment amount: 10.0, profit target: 20.0, loss threshold: 20.0
+2024-01-12 05:37:41 [INFO]: User initiated login to the trading platform.
+2024-01-12 05:37:52 [INFO]: User initiated demo trading.
+2024-01-12 05:38:28 [INFO]: Executing trade task
+2024-01-12 05:38:29 [INFO]: Trade started. Investment: 10.0, Selected button: Up
+2024-01-12 05:39:27 [INFO]: Executing trade task
+2024-01-12 05:39:28 [INFO]: Profit earned. Preparing for the next trade. +18.80 $
+2024-01-12 05:39:29 [INFO]: Trade started. Investment: 10.0, Selected button: Up
+2024-01-12 05:40:28 [INFO]: Executing trade task
+2024-01-12 05:40:28 [WARNING]: Loss occurred. Adjusting parameters for the next trade.
+2024-01-12 05:40:29 [INFO]: Trade started. Investment: 20.0, Selected button: Down
+2024-01-12 05:41:28 [INFO]: Executing trade task
+2024-01-12 05:41:28 [WARNING]: Loss occurred. Adjusting parameters for the next trade.
+2024-01-12 05:41:28 [INFO]: User-defined loss criteria met. Stopping the bot.
+
