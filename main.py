@@ -75,9 +75,11 @@ class TradingBot:
         """
         logging.info("User initiated bot configuration.")
         print("Please provide information for bot configuration:")
+        
         self.investment_amount = float(input("Investment amount: "))
         self.profit_target = float(input("Profit target: "))
         self.loss_threshold = float(input("Loss threshold: "))
+        
         logging.info(f"Bot configured with investment amount: {self.investment_amount}, "
                      f"profit target: {self.profit_target}, loss threshold: {self.loss_threshold}")
         print("Bot configuration complete.")
@@ -237,6 +239,7 @@ class TradingBot:
         # Initial trade trigger directly
         if self.profit_assumption == None and self.loss_assumption == None:
             self.start_trade(self.next_investment, self.next_button)
+            logging.info(f"Your Start Balance is {self.get_balance()}")
             return
 
         # Check last trade result (profit or loss)
@@ -252,7 +255,8 @@ class TradingBot:
             if stop_bot:
                 print("Your loss criteria met. Stopping the bot.")
                 logging.info("User-defined loss criteria met. Stopping the bot.")
-                sys.exit()
+                logging.info(f"Your Ending Balance is {self.get_balance()}")
+                self.driver.quit()
         else:  # Assume it's a profit
             print('Profit earned. Preparing for the next trade...')
             logging.info(f"Profit earned. Preparing for the next trade. {result_element.text}")
@@ -260,7 +264,8 @@ class TradingBot:
             if stop_bot:
                 print("Your profit criteria met. Stopping the bot.")
                 logging.info("User-defined profit criteria met. Stopping the bot.")
-                sys.exit()
+                logging.info(f"Your Ending Balance is {self.get_balance()}")
+                self.driver.quit()
 
         # Perform trade
         self.start_trade(self.next_investment, self.next_button)
