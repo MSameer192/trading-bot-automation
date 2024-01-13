@@ -14,3 +14,123 @@
 2024-01-12 05:41:28 [WARNING]: Loss occurred. Adjusting parameters for the next trade.
 2024-01-12 05:41:28 [INFO]: User-defined loss criteria met. Stopping the bot.
 
+2024-01-13 14:00:10 [INFO]: patching driver executable /home/sameer/.local/share/undetected_chromedriver/undetected_chromedriver
+2024-01-13 14:00:12 [INFO]: User initiated bot configuration.
+2024-01-13 14:00:22 [INFO]: Bot configured with investment amount: 50.0, profit target: 500.0, loss threshold: 500.0
+2024-01-13 14:00:33 [INFO]: User initiated login to the trading platform.
+2024-01-13 14:01:01 [INFO]: User initiated demo trading.
+2024-01-13 14:01:08 [INFO]: User initiated demo trading.
+2024-01-13 14:01:26 [INFO]: Executing trade task
+2024-01-13 14:01:28 [INFO]: Trade started. Investment: 50.0, Selected button: Up
+2024-01-13 14:01:28 [INFO]: Your Start Balance is 10690.15
+2024-01-13 14:03:26 [INFO]: Executing trade task
+2024-01-13 14:03:26 [INFO]: Profit earned. Preparing for the next trade. +90.50 $
+2024-01-13 14:03:28 [INFO]: Trade started. Investment: 50.0, Selected button: Up
+2024-01-13 14:04:26 [INFO]: Executing trade task
+2024-01-13 14:04:26 [WARNING]: Loss occurred. Adjusting parameters for the next trade.
+2024-01-13 14:04:27 [INFO]: Trade started. Investment: 100.0, Selected button: Down
+2024-01-13 14:06:25 [INFO]: Executing trade task
+2024-01-13 14:06:26 [INFO]: Profit earned. Preparing for the next trade. +181.00 $
+2024-01-13 14:06:27 [INFO]: Trade started. Investment: 50.0, Selected button: Down
+2024-01-13 14:07:25 [INFO]: Executing trade task
+2024-01-13 14:07:26 [INFO]: Profit earned. Preparing for the next trade. +90.00 $
+2024-01-13 14:07:27 [INFO]: Trade started. Investment: 50.0, Selected button: Down
+2024-01-13 14:08:25 [INFO]: Executing trade task
+2024-01-13 14:08:25 [WARNING]: Loss occurred. Adjusting parameters for the next trade.
+2024-01-13 14:08:26 [INFO]: Trade started. Investment: 100.0, Selected button: Up
+2024-01-13 14:09:25 [INFO]: Executing trade task
+2024-01-13 14:09:25 [INFO]: Profit earned. Preparing for the next trade. +182.00 $
+2024-01-13 14:09:26 [INFO]: Trade started. Investment: 50.0, Selected button: Up
+2024-01-13 14:10:25 [INFO]: Executing trade task
+2024-01-13 14:10:26 [WARNING]: Loss occurred. Adjusting parameters for the next trade.
+2024-01-13 14:10:27 [INFO]: Trade started. Investment: 100.0, Selected button: Down
+2024-01-13 14:11:25 [INFO]: Executing trade task
+2024-01-13 14:11:25 [INFO]: Profit earned. Preparing for the next trade. +180.00 $
+2024-01-13 14:11:27 [INFO]: Trade started. Investment: 50.0, Selected button: Down
+
+2024-01-14 01:35:16 [INFO]: patching driver executable /home/sameer/.local/share/undetected_chromedriver/undetected_chromedriver
+2024-01-14 01:35:18 [INFO]: User initiated bot configuration.
+2024-01-14 01:35:55 [INFO]: Bot configured with investment amount: 1.0, profit target: 5.0, loss threshold: 5.0
+2024-01-14 01:36:02 [INFO]: User initiated login to the trading platform.
+2024-01-14 01:36:12 [INFO]: User initiated demo trading.
+2024-01-14 01:36:25 [INFO]: Executing trade task
+2024-01-14 01:36:26 [INFO]: Your Start Balance is 10812.37
+2024-01-14 01:36:26 [INFO]: Trade started. Investment: 1.0, Selected button: Up
+2024-01-14 01:37:25 [INFO]: Executing trade task
+2024-01-14 01:37:26 [INFO]: Profit earned. Preparing for the next trade. +1.90 $
+2024-01-14 01:37:26 [INFO]: Trade started. Investment: 1.0, Selected button: Up
+2024-01-14 01:38:26 [INFO]: Executing trade task
+2024-01-14 01:38:26 [INFO]: Profit earned. Preparing for the next trade. +1.90 $
+2024-01-14 01:38:27 [INFO]: Trade started. Investment: 1.0, Selected button: Up
+2024-01-14 01:39:26 [INFO]: Executing trade task
+2024-01-14 01:39:26 [INFO]: Profit earned. Preparing for the next trade. +1.90 $
+2024-01-14 01:39:27 [INFO]: Trade started. Investment: 1.0, Selected button: Up
+2024-01-14 01:40:26 [INFO]: Executing trade task
+2024-01-14 01:40:26 [INFO]: Profit earned. Preparing for the next trade. +1.90 $
+2024-01-14 01:40:26 [INFO]: Trade started. Investment: 1.0, Selected button: Up
+2024-01-14 01:41:25 [INFO]: Executing trade task
+2024-01-14 01:41:26 [WARNING]: Loss occurred. Adjusting parameters for the next trade.
+2024-01-14 01:41:26 [INFO]: Trade started. Investment: 2.0, Selected button: Down
+2024-01-14 01:42:26 [INFO]: Executing trade task
+2024-01-14 01:42:26 [WARNING]: Loss occurred. Adjusting parameters for the next trade.
+2024-01-14 01:42:27 [INFO]: Trade started. Investment: 4.0, Selected button: Up
+2024-01-14 01:43:26 [INFO]: Executing trade task
+2024-01-14 01:43:26 [INFO]: Profit earned. Preparing for the next trade. +7.56 $
+2024-01-14 01:43:26 [INFO]: Trade started. Investment: 1.0, Selected button: Up
+2024-01-14 01:44:25 [INFO]: Executing trade task
+2024-01-14 01:44:25 [WARNING]: Loss occurred. Adjusting parameters for the next trade.
+2024-01-14 01:44:26 [INFO]: Trade started. Investment: 2.0, Selected button: Down
+2024-01-14 01:45:25 [INFO]: Executing trade task
+2024-01-14 01:45:26 [INFO]: Profit earned. Preparing for the next trade. +3.76 $
+2024-01-14 01:45:26 [INFO]: Trade started. Investment: 1.0, Selected button: Down
+2024-01-14 01:46:25 [INFO]: Executing trade task
+2024-01-14 01:46:26 [INFO]: Profit earned. Preparing for the next trade. +1.88 $
+2024-01-14 01:46:26 [INFO]: Trade started. Investment: 1.0, Selected button: Down
+2024-01-14 01:47:25 [INFO]: Executing trade task
+2024-01-14 01:47:25 [INFO]: Profit earned. Preparing for the next trade. +1.90 $
+2024-01-14 01:47:25 [INFO]: User-defined profit criteria met. Stopping the bot.
+2024-01-14 01:47:26 [INFO]: Your Ending Balance is 10818.17
+
+
+2024-01-14 01:51:48 [INFO]: patching driver executable /home/sameer/.local/share/undetected_chromedriver/undetected_chromedriver
+2024-01-14 01:51:50 [INFO]: User initiated bot configuration.
+2024-01-14 01:52:27 [INFO]: Bot configured with investment amount: 1.0, profit target: 5.0, loss threshold: 5.0
+2024-01-14 01:52:35 [INFO]: User initiated login to the trading platform.
+2024-01-14 01:52:45 [INFO]: User initiated demo trading.
+2024-01-14 01:53:26 [INFO]: Executing trade task
+2024-01-14 01:53:26 [INFO]: Your Start Balance is 10818.17
+2024-01-14 01:53:26 [INFO]: Trade started. Investment: 1.0, Selected button: Up
+2024-01-14 01:55:25 [INFO]: Executing trade task
+2024-01-14 01:55:26 [WARNING]: Loss occurred. Adjusting parameters for the next trade.
+2024-01-14 01:55:26 [INFO]: Trade started. Investment: 2.0, Selected button: Down
+2024-01-14 01:56:26 [INFO]: Executing trade task
+2024-01-14 01:56:26 [INFO]: Profit earned. Preparing for the next trade. +3.82 $
+2024-01-14 01:56:26 [INFO]: Trade started. Investment: 1.0, Selected button: Down
+2024-01-14 01:57:26 [INFO]: Executing trade task
+2024-01-14 01:57:26 [INFO]: Profit earned. Preparing for the next trade. +1.91 $
+2024-01-14 01:57:27 [INFO]: Trade started. Investment: 1.0, Selected button: Down
+2024-01-14 01:58:26 [INFO]: Executing trade task
+2024-01-14 01:58:26 [WARNING]: Loss occurred. Adjusting parameters for the next trade.
+2024-01-14 01:58:27 [INFO]: Trade started. Investment: 2.0, Selected button: Up
+2024-01-14 01:59:25 [INFO]: Executing trade task
+2024-01-14 01:59:25 [INFO]: Profit earned. Preparing for the next trade. +3.80 $
+2024-01-14 01:59:26 [INFO]: Trade started. Investment: 1.0, Selected button: Up
+2024-01-14 02:00:25 [INFO]: Executing trade task
+2024-01-14 02:00:26 [WARNING]: Loss occurred. Adjusting parameters for the next trade.
+2024-01-14 02:00:26 [INFO]: Trade started. Investment: 2.0, Selected button: Down
+2024-01-14 02:01:26 [INFO]: Executing trade task
+2024-01-14 02:01:27 [INFO]: Profit earned. Preparing for the next trade. +3.78 $
+2024-01-14 02:01:27 [INFO]: Trade started. Investment: 1.0, Selected button: Down
+2024-01-14 02:02:25 [INFO]: Executing trade task
+2024-01-14 02:02:25 [WARNING]: Loss occurred. Adjusting parameters for the next trade.
+2024-01-14 02:02:26 [INFO]: Trade started. Investment: 2.0, Selected button: Up
+2024-01-14 02:03:25 [INFO]: Executing trade task
+2024-01-14 02:03:26 [INFO]: Profit earned. Preparing for the next trade. +3.78 $
+2024-01-14 02:03:27 [INFO]: Trade started. Investment: 1.0, Selected button: Up
+2024-01-14 02:04:25 [INFO]: Executing trade task
+2024-01-14 02:04:26 [INFO]: Profit earned. Preparing for the next trade. +1.89 $
+2024-01-14 02:04:26 [INFO]: Trade started. Investment: 1.0, Selected button: Up
+2024-01-14 02:05:25 [INFO]: Executing trade task
+2024-01-14 02:05:26 [INFO]: Profit earned. Preparing for the next trade. +1.89 $
+2024-01-14 02:05:26 [INFO]: User-defined profit criteria met. Stopping the bot.
+2024-01-14 02:05:26 [INFO]: Your Ending Balance is 10822.15

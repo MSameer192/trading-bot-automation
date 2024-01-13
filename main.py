@@ -17,7 +17,7 @@ class TradingBot:
     def __init__(self):
         self.chrome_driver_path = "../chromedriver-linuxNew/chromedriver-linux64/chromedriver"
         self.service = Service(self.chrome_driver_path)
-        self.driver = uc.Chrome(service=self.service)
+        self.driver = uc.Chrome(service=self.service, auto_download=False)
         self.driver.maximize_window()
 
         # User settings
@@ -133,7 +133,7 @@ class TradingBot:
             return
 
         self.find("xpath", '//*[@id="root"]/div/div[1]/header/div[8]/div[2]/div[2]/ul[1]/li[3]').click()
-        time.sleep(5)
+        time.sleep(8)
 
         self.monitor_trading_time_get_buttons()
 
@@ -238,8 +238,8 @@ class TradingBot:
 
         # Initial trade trigger directly
         if self.profit_assumption == None and self.loss_assumption == None:
-            self.start_trade(self.next_investment, self.next_button)
             logging.info(f"Your Start Balance is {self.get_balance()}")
+            self.start_trade(self.next_investment, self.next_button)
             return
 
         # Check last trade result (profit or loss)
@@ -256,7 +256,7 @@ class TradingBot:
                 print("Your loss criteria met. Stopping the bot.")
                 logging.info("User-defined loss criteria met. Stopping the bot.")
                 logging.info(f"Your Ending Balance is {self.get_balance()}")
-                self.driver.quit()
+                sys.exit()
         else:  # Assume it's a profit
             print('Profit earned. Preparing for the next trade...')
             logging.info(f"Profit earned. Preparing for the next trade. {result_element.text}")
@@ -265,7 +265,7 @@ class TradingBot:
                 print("Your profit criteria met. Stopping the bot.")
                 logging.info("User-defined profit criteria met. Stopping the bot.")
                 logging.info(f"Your Ending Balance is {self.get_balance()}")
-                self.driver.quit()
+                sys.exit()
 
         # Perform trade
         self.start_trade(self.next_investment, self.next_button)
