@@ -68,7 +68,6 @@ class TradingBot:
         self.password = password
         self.user_id = user_id
         self.email = email
-        self.loss_handler = 0
 
     def find(self, method, value):
         """
@@ -123,7 +122,7 @@ class TradingBot:
         """
         Gracefully stop the main trading loop.
         """
-        logging.info("Stopping the trading bot...")
+        logging.info(f"Stopping the trading bot...\n\n")
         print("Stopping the trading bot...")
 
         # Temporarily adjust the log level to suppress warnings
@@ -294,18 +293,12 @@ class TradingBot:
             self.next_button,
             acc_max_balance,
         )
-        if self.martingale_multiplier < mtg_checker:
-            self.loss_assumption = (
-                self.investment_amount,
-                self.down_button if self.next_button.text == "Up" else self.up_button,
-                acc_min_balance,
-            )
-        else:
-            self.loss_assumption = (
-                self.next_investment * 2,
-                self.down_button if self.next_button.text == "Up" else self.up_button,
-                acc_min_balance,
-            )
+
+        self.loss_assumption = (
+            self.next_investment * self.martingale_multiplier,
+            self.down_button if self.next_button.text == "Up" else self.up_button,
+            acc_min_balance,
+        )
 
         self.pre_calculator_handler = True
 
@@ -333,7 +326,6 @@ class TradingBot:
         if result_element.text == "0.00 $":  # Assume it's a loss
             print("Loss occurred. Adjusting parameters for the next trade...")
             logging.warning("Loss occurred. Adjusting parameters for the next trade.")
-            self.loss_handler = self.loss_handler + 1
             
             (
                 self.next_investment,
@@ -357,7 +349,6 @@ class TradingBot:
                 stop_bot,
             ) = self.profit_assumption  # Unpack the tuple
             
-            self.loss_handler = 0
             if stop_bot:
                 print("Your profit criteria met. Stopping the bot.")
                 logging.info(f"Your Ending Balance is {self.get_balance()}\n")
@@ -405,6 +396,5 @@ if __name__ == "__main__":
 
     except Exception as e:
         print(f"An error occurred during: {e}")
-        logging.error(f"An error occurred during: {e}\n")
         bot.stop_trading()
 

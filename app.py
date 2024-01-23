@@ -138,7 +138,7 @@ class TradingApp:
 
     def check_license(self):
         # Hardcoded license expiration date (March 23, 2024)
-        license_expiration_date = datetime(2024, 1, 24)
+        license_expiration_date = datetime(2024, 1, 26)
         
         # Get the current date
         current_date = datetime.now()
