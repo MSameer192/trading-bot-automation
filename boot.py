@@ -3,28 +3,56 @@ import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.keys import Keys
-import sys
 import time
 import logging
+import urllib3
 
+# Disable urllib3 warnings
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Set up logging
-logging.basicConfig(filename='trading_bot_logs.log', level=logging.INFO,
-                    format='%(asctime)s [%(levelname)s]: %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+logging.basicConfig(
+    filename="trading_bot_logs.log",
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s]: %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
 
 
 class TradingBot:
     def __init__(self):
-        self.chrome_driver_path = "../chromedriver-linuxNew/chromedriver-linux64/chromedriver"
+        print("Bot Trying to Started by app.py")
+
+        self.chrome_driver_path = (
+            "../chromedriver-linuxNew/chromedriver-linux64/chromedriver"
+        )
         self.service = Service(self.chrome_driver_path)
         self.driver = uc.Chrome(service=self.service, auto_download=False)
         self.driver.maximize_window()
 
+        # Open the file in read mode
+        with open("data.txt", "r") as file:
+            # Read all lines from the file
+            lines = file.readlines()
+
+        # Iterate through each line and extract information
+        for line in lines:
+            # Split each line into key and value
+            key, value = line.strip().split(" = ")
+
+            # Check if the key is 'password' or 'user'
+            if key == "password":
+                password = value
+            elif key == "user":
+                user_id = value
+            elif key == "email":
+                email = value
+
         # User settings
-        self.user_id = 'ID: 34024297'
         self.investment_amount = None
         self.profit_target = None
         self.loss_threshold = None
+        self.martingale_multiplier = None
         self.up_button = None
         self.down_button = None
         self.investment_input = None
@@ -37,6 +65,10 @@ class TradingBot:
         self.balance_element = None
         self.account_min_balance = None
         self.account_max_balance = None
+        self.password = password
+        self.user_id = user_id
+        self.email = email
+        self.loss_handler = 0
 
     def find(self, method, value):
         """
@@ -69,20 +101,41 @@ class TradingBot:
         else:
             raise ValueError("Invalid locator method provided")
 
-    def get_user_inputs(self):
+    def user_start_logs(self):
         """
         Get user inputs for bot configuration.
         """
         logging.info("User initiated bot configuration.")
         print("Please provide information for bot configuration:")
-        
-        self.investment_amount = float(input("Investment amount: "))
-        self.profit_target = float(input("Profit target: "))
-        self.loss_threshold = float(input("Loss threshold: "))
-        
-        logging.info(f"Bot configured with investment amount: {self.investment_amount}, "
-                     f"profit target: {self.profit_target}, loss threshold: {self.loss_threshold}")
+
+        # self.investment_amount = float(input("Investment amount: "))
+        # self.profit_target = float(input("Profit target: "))
+        # self.loss_threshold = float(input("Loss threshold: "))
+
+        logging.info(
+            f"Bot configured with investment amount: {self.investment_amount}, "
+            f"profit target: {self.profit_target}, loss threshold: {self.loss_threshold}"
+            f" martingale multiplier: {self.martingale_multiplier} times"
+        )
         print("Bot configuration complete.")
+
+    def stop_trading(self):
+        """
+        Gracefully stop the main trading loop.
+        """
+        logging.info("Stopping the trading bot...")
+        print("Stopping the trading bot...")
+
+        # Temporarily adjust the log level to suppress warnings
+        previous_log_level = logging.getLogger().getEffectiveLevel()
+        logging.getLogger().setLevel(logging.ERROR)
+
+        try:
+            self.driver.quit()
+        finally:
+            # Restore the original log level
+            logging.getLogger().setLevel(previous_log_level)
+
 
     def login(self):
         """
@@ -92,15 +145,13 @@ class TradingBot:
         self.find("xpath", "//*[@id='top']/div/div[1]/a[2]").click()
         time.sleep(4)
 
-        login_email = "sameer192.official@gmail.com"
-        password = ""
-        with open("./pass.txt") as file:
-            password = file.readline()
-
-        self.find("xpath", '//*[@id="tab-1"]/form/div[1]/input').send_keys(login_email)
-        self.find("xpath", '//*[@id="tab-1"]/form/div[2]/input').send_keys(password)
+        self.find("xpath", '//*[@id="tab-1"]/form/div[1]/input').send_keys(self.email)
+        self.find("xpath", '//*[@id="tab-1"]/form/div[2]/input').send_keys(
+            self.password
+        )
         self.find("xpath", '//*[@id="tab-1"]/form/button').click()
         logging.info("User initiated login to the trading platform.")
+        self.user_start_logs()
         time.sleep(5)
 
         # Check OTP Popup
@@ -121,18 +172,25 @@ class TradingBot:
         """
         Start demo trading after checking user credentials.
         """
-        
+
         logging.info("User initiated demo trading.")
 
         self.find("xpath", '//*[@id="root"]/div/div[1]/header/div[8]/div[2]').click()
 
         # Check user ID
-        user_id = self.find("class", 'usermenu__number').text
+        user_id = self.find("class", "usermenu__number").text
         if user_id != self.user_id:
-            print('Invalid user ID. Please try again with correct credentials.')
-            return
+            print("Invalid user ID. Please try again with correct credentials.")
+            logging.warning(
+                "Invalid user ID. Please try again with correct credentials.\n"
+            )
+            self.stop_trading()
+            # return
 
-        self.find("xpath", '//*[@id="root"]/div/div[1]/header/div[8]/div[2]/div[2]/ul[1]/li[3]').click()
+        self.find(
+            "xpath",
+            '//*[@id="root"]/div/div[1]/header/div[8]/div[2]/div[2]/ul[1]/li[3]',
+        ).click()
         time.sleep(8)
 
         self.monitor_trading_time_get_buttons()
@@ -154,7 +212,9 @@ class TradingBot:
             '//*[@id="root"]/div/div[1]/main/div[2]/div[1]/div/div[5]/div[2]/div/div/input',
         )
         self.balance_element = self.find("class", "usermenu__info-balance")
-        self.current_currency_percentage_element =  self.find("class", 'section-deal__percent')
+        self.current_currency_percentage_element = self.find(
+            "class", "section-deal__percent"
+        )
 
     def monitor_trading_time_get_buttons(self):
         """
@@ -213,20 +273,40 @@ class TradingBot:
             return
 
         current_balance = self.get_balance()
-        
+
         # Check Current Perecentage of Currency
         current_percentage = self.current_currency_percentage_element.text
-        current_percentage = current_percentage.replace('%', '')
-        current_percentage = float(current_percentage)/100
-        
+        current_percentage = current_percentage.replace("%", "")
+        current_percentage = float(current_percentage) / 100
+        mtg_checker = self.loss_handler + 1
         # Account max and min balance checker
-        acc_max_balance = (current_balance + self.investment_amount * current_percentage + self.investment_amount) >= self.account_max_balance
+        acc_max_balance = (
+            current_balance
+            + self.investment_amount * current_percentage
+            + self.investment_amount
+        ) >= self.account_max_balance
         acc_min_balance = current_balance <= self.account_min_balance
-        print('Account max balance criteria met:', acc_max_balance)
-        print('Account min balance criteria met:', acc_min_balance)
+        print("Account max balance criteria met:", acc_max_balance)
+        print("Account min balance criteria met:", acc_min_balance)
 
-        self.profit_assumption = (self.investment_amount, self.next_button, acc_max_balance)
-        self.loss_assumption = (self.next_investment * 2, self.down_button if self.next_button.text == "Up" else self.up_button, acc_min_balance)
+        self.profit_assumption = (
+            self.investment_amount,
+            self.next_button,
+            acc_max_balance,
+        )
+        if self.martingale_multiplier < mtg_checker:
+            self.loss_assumption = (
+                self.investment_amount,
+                self.down_button if self.next_button.text == "Up" else self.up_button,
+                acc_min_balance,
+            )
+        else:
+            self.loss_assumption = (
+                self.next_investment * 2,
+                self.down_button if self.next_button.text == "Up" else self.up_button,
+                acc_min_balance,
+            )
+
         self.pre_calculator_handler = True
 
     def execute_trade_task(self):
@@ -243,29 +323,47 @@ class TradingBot:
             return
 
         # Check last trade result (profit or loss)
-        result_element = self.find('xpath', '//*[@id="root"]/div/div[1]/main/div[2]/div[2]/div[2]/div[2]/div/div[4]/div')
-        print('Last trade result:', result_element.text)
+        result_element = self.find(
+            "xpath",
+            '//*[@id="root"]/div/div[1]/main/div[2]/div[2]/div[2]/div[2]/div/div[4]/div',
+        )
+        print("Last trade result:", result_element.text)
 
         # Depending on the previous trade result, set the next trade parameters
-        if result_element.text == '0.00 $':  # Assume it's a loss
-            print('Loss occurred. Adjusting parameters for the next trade...')
+        if result_element.text == "0.00 $":  # Assume it's a loss
+            print("Loss occurred. Adjusting parameters for the next trade...")
             logging.warning("Loss occurred. Adjusting parameters for the next trade.")
-
-            self.next_investment, self.next_button, stop_bot = self.loss_assumption  # Unpack the tuple
+            self.loss_handler = self.loss_handler + 1
+            
+            (
+                self.next_investment,
+                self.next_button,
+                stop_bot,
+            ) = self.loss_assumption  # Unpack the tuple
             if stop_bot:
                 print("Your loss criteria met. Stopping the bot.")
+                logging.info(f"Your Ending Balance is {self.get_balance()}\n")
                 logging.info("User-defined loss criteria met. Stopping the bot.")
-                logging.info(f"Your Ending Balance is {self.get_balance()}")
-                sys.exit()
+                self.stop_trading()
+
         else:  # Assume it's a profit
-            print('Profit earned. Preparing for the next trade...')
-            logging.info(f"Profit earned. Preparing for the next trade. {result_element.text}")
-            self.next_investment, self.next_button, stop_bot = self.profit_assumption  # Unpack the tuple
+            print("Profit earned. Preparing for the next trade...")
+            logging.info(
+                f"Profit earned. Preparing for the next trade. {result_element.text}"
+            )
+            (
+                self.next_investment,
+                self.next_button,
+                stop_bot,
+            ) = self.profit_assumption  # Unpack the tuple
+            
+            self.loss_handler = 0
             if stop_bot:
                 print("Your profit criteria met. Stopping the bot.")
+                logging.info(f"Your Ending Balance is {self.get_balance()}\n")
                 logging.info("User-defined profit criteria met. Stopping the bot.")
-                logging.info(f"Your Ending Balance is {self.get_balance()}")
-                sys.exit()
+                self.stop_trading()
+
 
         # Perform trade
         self.start_trade(self.next_investment, self.next_button)
@@ -295,10 +393,18 @@ class TradingBot:
         self.pre_calculator_handler = False
         print("Trade started. Investment:", investment)
         print("Selected button:", button.text)
-        logging.info(f"Trade started. Investment: {investment}, Selected button: {button.text}")
+        logging.info(
+            f"Trade started. Investment: {investment}, Selected button: {button.text}"
+        )
 
 
 if __name__ == "__main__":
-    bot = TradingBot()
-    bot.get_user_inputs()  
-    bot.login()
+    try:
+        bot = TradingBot()
+        bot.login()
+
+    except Exception as e:
+        print(f"An error occurred during: {e}")
+        logging.error(f"An error occurred during: {e}\n")
+        bot.stop_trading()
+
