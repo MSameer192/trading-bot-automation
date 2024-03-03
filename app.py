@@ -1,6 +1,6 @@
 import tkinter as tk
 from threading import Thread
-from boot import TradingBot
+from bot import TradingBot
 from tkinter import messagebox
 from datetime import datetime
 
@@ -138,7 +138,7 @@ class TradingApp:
 
     def check_license(self):
         # Hardcoded license expiration date (March 23, 2024)
-        license_expiration_date = datetime(2024, 1, 26)
+        license_expiration_date = datetime(2024, 5, 26)
         
         # Get the current date
         current_date = datetime.now()

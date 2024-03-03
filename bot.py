@@ -24,7 +24,8 @@ class TradingBot:
         print("Bot Trying to Started by app.py")
 
         self.chrome_driver_path = (
-            "../chromedriver-linuxNew/chromedriver-linux64/chromedriver"
+            "./chromedriver/chromedriver"
+            # ../chromedriver-linuxNew/chromedriver-linux64/chromedriver
         )
         self.service = Service(self.chrome_driver_path)
         self.driver = uc.Chrome(service=self.service, auto_download=False)
@@ -68,7 +69,7 @@ class TradingBot:
         self.password = password
         self.user_id = user_id
         self.email = email
-
+        self.loss_handler = 0
     def find(self, method, value):
         """
         Find element using the specified method.
@@ -135,12 +136,11 @@ class TradingBot:
             # Restore the original log level
             logging.getLogger().setLevel(previous_log_level)
 
-
     def login(self):
         """
         Log in to the trading platform.
         """
-        self.driver.get("https://qxbroker.com/en")
+        self.driver.get("http://qxbroker.com/en")
         self.find("xpath", "//*[@id='top']/div/div[1]/a[2]").click()
         time.sleep(4)
 
@@ -174,7 +174,7 @@ class TradingBot:
 
         logging.info("User initiated demo trading.")
 
-        self.find("xpath", '//*[@id="root"]/div/div[1]/header/div[8]/div[2]').click()
+        self.find("xpath", '//*[@id="root"]/div/div[1]/header/div[7]/div[2]/div/div[2]').click()
 
         # Check user ID
         user_id = self.find("class", "usermenu__number").text
@@ -185,13 +185,26 @@ class TradingBot:
             )
             self.stop_trading()
             # return
+        time.sleep(2)
+        
+        """
+        Change live account demo trading.
+        """
 
         self.find(
             "xpath",
-            '//*[@id="root"]/div/div[1]/header/div[8]/div[2]/div[2]/ul[1]/li[3]',
+            '//*[@id="root"]/div/div[1]/header/div[7]/div[2]/div[2]/ul[1]/li[3]',
         ).click()
-        time.sleep(8)
+        time.sleep(1)
 
+        self.find(
+            "xpath",
+            '//*[@id="root"]/div/div[3]/div/div/div/div[2]/button',
+        ).click()
+        time.sleep(1)
+
+
+        time.sleep(6)
         self.monitor_trading_time_get_buttons()
 
     def monitor_trading_buttons(self):
@@ -237,7 +250,9 @@ class TradingBot:
                 time.sleep(50)  # Rest for 50 seconds after executing trade tasks
 
             elif self.pre_calculator_handler == False:
+                print('before pre_calculate_trade')                
                 self.pre_calculate_trade()
+                print('after pre_calculate_trade')
 
             time.sleep(
                 0.100
@@ -251,7 +266,9 @@ class TradingBot:
             float: User's balance.
         """
         balance_text = self.balance_element.text
+        print('balance getting')
         balance = float(balance_text.replace("$", "").replace(",", ""))
+        print('balance get', balance)
         return balance
 
     def pre_calculate_trade(self):
@@ -326,7 +343,7 @@ class TradingBot:
         if result_element.text == "0.00 $":  # Assume it's a loss
             print("Loss occurred. Adjusting parameters for the next trade...")
             logging.warning("Loss occurred. Adjusting parameters for the next trade.")
-            
+            self.loss_handler = self.loss_handler + 1
             (
                 self.next_investment,
                 self.next_button,
@@ -349,12 +366,12 @@ class TradingBot:
                 stop_bot,
             ) = self.profit_assumption  # Unpack the tuple
             
+            self.loss_handler = 0
             if stop_bot:
                 print("Your profit criteria met. Stopping the bot.")
                 logging.info(f"Your Ending Balance is {self.get_balance()}\n")
                 logging.info("User-defined profit criteria met. Stopping the bot.")
                 self.stop_trading()
-
 
         # Perform trade
         self.start_trade(self.next_investment, self.next_button)
@@ -396,5 +413,4 @@ if __name__ == "__main__":
 
     except Exception as e:
         print(f"An error occurred during: {e}")
-        bot.stop_trading()
-
+        # bot.stop_trading()
